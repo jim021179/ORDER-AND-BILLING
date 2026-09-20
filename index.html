@@ -3,52 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Distributor Hub</title>
+    <title>Simple Confectionery Bill</title>
     <style>
-        body { background-color: #f1f5f9; padding: 0; margin: 0; font-family: sans-serif; color: #1e293b; font-size: 14px; }
+        body { background-color: #f1f5f9; padding: 0; margin: 0; font-family: sans-serif; color: #1e293b; }
         header { background-color: #2563eb; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2rem; }
-        .subtitle { font-size: 0.75rem; color: #bfdbfe; font-weight: normal; margin-top: 2px; }
-        main { padding: 15px; max-width: 480px; margin: 0 auto; }
+        .subtitle { font-size: 0.75rem; color: #bfdbfe; margin-top: 2px; font-weight: normal; }
+        main { padding: 15px; max-width: 450px; margin: 0 auto; }
         .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .section-title { font-size: 0.9rem; font-weight: bold; color: #2563eb; margin-top: 0; margin-bottom: 12px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; text-transform: uppercase; }
         label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 6px; color: #475569; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; margin-bottom: 12px; box-sizing: border-box; background-color: #ffffff; color: #000000; }
         .grid-2 { display: grid; grid-template-cols: 1fr 1fr; gap: 10px; }
-        
-        .btn-green { background-color: #22c55e; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; width: 100%; cursor: pointer; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-top: 5px; }
+        .btn-green { background-color: #22c55e; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; width: 100%; cursor: pointer; text-transform: uppercase; }
         .btn-green:active { background-color: #16a34a; }
-        
-        .btn-add-item { background-color: #e2e8f0; color: #2563eb; border: 2px dashed #2563eb; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; width: 100%; cursor: pointer; text-transform: uppercase; margin-bottom: 15px; text-align: center; }
-        .btn-add-item:active { background-color: #cbd5e1; }
-        
-        .product-block { background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:12px; position: relative; }
         .dark-box { background-color: #0f172a; color: #f8fafc; padding: 15px; border-radius: 10px; font-family: monospace; font-size: 0.85rem; margin-top: 12px; line-height: 1.6; }
         .flex-row { display: flex; justify-content: space-between; }
         .hr-dashed { border: none; border-top: 1px dashed #334155; margin: 8px 0; }
+        .item-block { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <header>
-        Bill
-        <div class="subtitle">Custom Order & GST WhatsApp Desk</div>
+        Order N Bill Lite
+        <div class="subtitle">Quick Custom Order & GST Calculator</div>
     </header>
 
     <main>
-        <!-- BLOCK 1: SHOP AND LOCATION SETTINGS -->
+        <!-- BLOCK 1: SHOP INFORMATION DETAILS -->
         <div class="card">
             <div class="section-title">👥 Shop Profile & Route</div>
             <label>Retailer / Store Name</label>
-            <input type="text" id="inp-store-name" placeholder="e.g. Balaji Kirana Store" value="Sharma Store">
+            <input type="text" id="store-name" placeholder="Shop Name" value="Sharma Store">
 
             <div class="grid-2">
                 <div>
                     <label>Location Area</label>
-                    <input type="text" id="inp-location" placeholder="e.g. Main Bazar" value="Station Road">
+                    <input type="text" id="store-loc" placeholder="Market Location" value="Station Road">
                 </div>
                 <div>
-                    <label>Delivery Route Day</label>
-                    <select id="inp-day">
+                    <label>Route Day</label>
+                    <select id="route-day">
                         <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
                         <option>Thursday</option><option>Friday</option><option>Saturday</option>
                     </select>
@@ -56,106 +51,127 @@
             </div>
         </div>
 
-        <!-- BLOCK 2: DYNAMIC CONFECTIONERY ORDER ITEMS LOG -->
+        <!-- BLOCK 2: CONFECTIONERY ORDER ITEMS (SIMPLE & DIRECTLY EDITABLE) -->
         <div class="card">
-            <div class="section-title">📦 1. Order Generation Desk</div>
-            <p style="font-size:0.8rem; color:#64748b; margin-top:0; margin-bottom:12px;">Manage delivered stock logs. Tap the button below to append custom rows:</p>
+            <div class="section-title">📦 Order Items (Change Names & Prices Anytime)</div>
             
-            <div id="dynamic-items-list-box">
-                <!-- Preloaded Biscuit SKU Row 1 -->
-                <div class="product-block">
-                    <label>Product Description Name</label>
-                    <input type="text" class="item-name-field" value="Glucose Biscuits Pack">
-                    <div class="grid-2">
-                        <div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="240"></div>
-                        <div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>
-                    </div>
-                </div>
-
-                <!-- Preloaded Biscuit SKU Row 2 -->
-                <div class="product-block">
-                    <label>Product Description Name</label>
-                    <input type="text" class="item-name-field" value="Cream Wafers Box">
-                    <div class="grid-2">
-                        <div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="450"></div>
-                        <div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>
-                    </div>
-                </div>
-
-                <!-- Preloaded Biscuit SKU Row 3 -->
-                <div class="product-block">
-                    <label>Product Description Name</label>
-                    <input type="text" class="item-name-field" value="Mixed Fruit Candy Pouch">
-                    <div class="grid-2">
-                        <div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="180"></div>
-                        <div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>
-                    </div>
+            <!-- Item slot 1 -->
+            <div class="item-block">
+                <input type="text" id="p1-name" value="Glucose Biscuits Pack" style="font-weight:bold; margin-bottom:6px; padding:6px;">
+                <div class="grid-2">
+                    <div><label>Price (₹)</label><input type="number" id="p1-price" value="240"></div>
+                    <div><label>Qty Delivered</label><input type="number" id="p1-qty" value="0"></div>
                 </div>
             </div>
 
-            <!-- BUTTON TO ADD NEW CUSTOM ROWS -->
-            <button type="button" class="btn-add-item" onclick="appendNewProductRow()">➕ Add More Items / Products</button>
+            <!-- Item slot 2 -->
+            <div class="item-block">
+                <input type="text" id="p2-name" value="Cream Wafers Box" style="font-weight:bold; margin-bottom:6px; padding:6px;">
+                <div class="grid-2">
+                    <div><label>Price (₹)</label><input type="number" id="p2-price" value="450"></div>
+                    <div><label>Qty Delivered</label><input type="number" id="p2-qty" value="0"></div>
+                </div>
+            </div>
+
+            <!-- Item slot 3 -->
+            <div class="item-block">
+                <input type="text" id="p3-name" value="Mixed Fruit Candy Pouch" style="font-weight:bold; margin-bottom:6px; padding:6px;">
+                <div class="grid-2">
+                    <div><label>Price (₹)</label><input type="number" id="p3-price" value="180"></div>
+                    <div><label>Qty Delivered</label><input type="number" id="p3-qty" value="0"></div>
+                </div>
+            </div>
+
+            <!-- Item slot 4 -->
+            <div class="item-block">
+                <input type="text" id="p4-name" value="Custom Product 4" placeholder="Type Item Name Here" style="font-weight:bold; margin-bottom:6px; padding:6px;">
+                <div class="grid-2">
+                    <div><label>Price (₹)</label><input type="number" id="p4-price" value="0"></div>
+                    <div><label>Qty Delivered</label><input type="number" id="p4-qty" value="0"></div>
+                </div>
+            </div>
+            
+            <!-- Item slot 5 -->
+            <div class="item-block">
+                <input type="text" id="p5-name" value="Custom Product 5" placeholder="Type Item Name Here" style="font-weight:bold; margin-bottom:6px; padding:6px;">
+                <div class="grid-2">
+                    <div><label>Price (₹)</label><input type="number" id="p5-price" value="0"></div>
+                    <div><label>Qty Delivered</label><input type="number" id="p5-qty" value="0"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- BLOCK 3: LEDGER DUES TRACKING AND INVOICE TRIGGER -->
+        <!-- BLOCK 3: PAYMENT LEDGER ACCOUNT -->
         <div class="card">
-            <div class="section-title">💸 2. Payment Billing Desk</div>
+            <div class="section-title">💸 Payment Ledger</div>
             <div class="grid-2">
                 <div>
-                    <label>Prior Ledger Dues (₹)</label>
-                    <input type="number" step="0.01" id="inp-old-dues" value="1500">
+                    <label>Previous Ledger Dues (₹)</label>
+                    <input type="number" id="ledger-old" value="1500">
                 </div>
                 <div>
                     <label>Cash Collected Now (₹)</label>
-                    <input type="number" step="0.01" id="inp-cash-paid" value="1000">
+                    <input type="number" id="ledger-paid" value="1000">
                 </div>
             </div>
             
-            <button type="button" class="btn-green" onclick="generateInvoiceBreakdown()">Process Order & Bill Ledger</button>
+            <!-- EXPLICIT ACTION TRIGGER BUTTON -->
+            <button type="button" class="btn-green" onclick="runSimpleInvoiceMath()">Calculate & Build WhatsApp Bill</button>
         </div>
 
-        <!-- BLOCK 4: THE INVOICE BREAKDOWN REPORT AND SELECTIVE TEXT FIELD -->
+        <!-- BLOCK 4: BREAKDOWN DISPLAY SCREEN & WHATSAPP GENERATION LINK -->
         <div class="card" id="report-panel" style="display:none;">
-            <div class="section-title">📊 Tax Invoice Ledger Summary</div>
+            <div class="section-title">📊 Final Invoice Summary</div>
             <div class="dark-box">
                 <div class="flex-row"><span>Taxable Base Value:</span><span id="out-base">₹0.00</span></div>
-                <div class="flex-row" style="color:#94a3b8;"><span>CGST Split Calculation (9%):</span><span id="out-cgst">₹0.00</span></div>
-                <div class="flex-row" style="color:#94a3b8;"><span>SGST Split Calculation (9%):</span><span id="out-sgst">₹0.00</span></div>
+                <div class="flex-row" style="color:#94a3b8;"><span>CGST (9% Split):</span><span id="out-cgst">₹0.00</span></div>
+                <div class="flex-row" style="color:#94a3b8;"><span>SGST (9% Split):</span><span id="out-sgst">₹0.00</span></div>
                 <div class="hr-dashed"></div>
                 <div class="flex-row" style="color:#4ade80; font-weight:bold;"><span>Current Delivery Total:</span><span id="out-bill">₹0.00</span></div>
                 <div class="flex-row" style="color:#f87171;"><span>Prior Balance Account:</span><span id="out-old">₹0.00</span></div>
                 <div class="hr-dashed"></div>
-                <div class="flex-row" style="font-weight:bold; font-size:1rem; color:#4ade80;" id="net-dues-row-wrapper"><span>Net Balance Pending:</span><span id="out-pending">₹0.00</span></div>
+                <div class="flex-row" style="font-weight:bold; font-size:1.05rem; color:#f87171;" id="dues-text-wrapper"><span>Net Balance Pending:</span><span id="out-pending">₹0.00</span></div>
             </div>
 
-            <h3 style="font-size: 0.85rem; font-weight: bold; margin-top: 15px; margin-bottom: 5px; color: #475569;">📋 Edit text message before sending on WhatsApp:</h3>
-            <textarea id="whatsapp-text-field" style="height:170px;"></textarea>
+            <label style="margin-top: 15px; margin-bottom: 5px;">📋 Edit Bill Text Note Before Sending:</label>
+            <textarea id="whatsapp-box" style="height:160px;"></textarea>
             
-            <button type="button" class="btn-green" style="background-color:#2563eb;" onclick="launchWhatsAppSharing()">📲 Send Invoice Text via WhatsApp</button>
+            <button type="button" class="btn-green" style="background-color:#2563eb;" onclick="copyAndOpenWhatsApp()">📲 Send Invoice Text via WhatsApp</button>
         </div>
     </main>
 
     <script>
-        // Appends a new item block container right into the list view dynamically
-        function appendNewProductRow() {
-            var targetBox = document.getElementById('dynamic-items-list-box');
-            var customBlockNode = document.createElement('div');
-            customBlockNode.className = 'product-block';
-            customBlockNode.innerHTML = '<label>Product Description Name</label>' +
-                '<input type="text" class="item-name-field" placeholder="e.g. New Biscuit SKU Brand Pack">' +
-                '<div class="grid-2">' +
-                    '<div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="0"></div>' +
-                    '<div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>' +
-                '</div>';
-            targetBox.appendChild(customBlockNode);
-        }
+        function runSimpleInvoiceMath() {
+            var store = document.getElementById('store-name').value;
+            var loc = document.getElementById('store-loc').value;
+            var day = document.getElementById('route-day').value;
+            var oldDues = parseFloat(document.getElementById('ledger-old').value) || 0;
+            var cashPaid = parseFloat(document.getElementById('ledger-paid').value) || 0;
 
-        function generateInvoiceBreakdown() {
-            var storeName = document.getElementById('inp-store-name').value;
-            var location = document.getElementById('inp-location').value;
-            var runDay = document.getElementById('inp-day').value;
-            var oldDues = parseFloat(document.getElementById('inp-old-dues').value) || 0;
-            var cashPaid = parseFloat(document.getElementById('inp-cash-paid').value) || 0;
+            var totalTaxable = 0;
+            var summaryArr = [];
 
-            var namesArr = document.getElementsByClassName('item-name-field');
-            var pricesArr = document.getElementsByClassName('item-price-field');
+            // Explicit calculation lines for the 5 open slot panels
+            for (var i = 1; i <= 5; i++) {
+                var pName = document.getElementById('p' + i + '-name').value || "Confectionery Item";
+                var pPrice = parseFloat(document.getElementById('p' + i + '-price').value) || 0;
+                var pQty = parseInt(document.getElementById('p' + i + '-qty').value) || 0;
+
+                if (pQty > 0) {
+                    var lineCost = pQty * pPrice;
+                    totalTaxable = totalTaxable + lineCost;
+                    summaryArr.push("- " + pName + " x " + pQty + " Pcs");
+                }
+            }
+
+            if (summaryArr.length === 0) {
+                summaryArr.push("- No stock items selected");
+            }
+
+            // Indian 18% Confectionery / Biscuit standard GST split logic calculation
+            var totalTax = totalTaxable * 0.18;
+            var currentBillTotal = totalTaxable + totalTax;
+            var remainingDues = (currentBillTotal + oldDues) - cashPaid;
+
+            // Display numerical report values
+            document.getElementById('out-base').innerText = "₹" + totalTaxable.toFixed(2);
