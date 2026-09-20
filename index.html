@@ -3,33 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Distributor Pro</title>
+    <title>Distributor</title>
     <style>
         body { background-color: #f1f5f9; padding: 0; margin: 0; font-family: sans-serif; color: #1e293b; font-size: 14px; }
-        header { background-color: #3b82f6; color: white; padding: 15px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .app-title { font-size: 1.3rem; font-weight: bold; letter-spacing: 0.5px; }
+        header { background-color: #3b82f6; color: white; padding: 15px; text-align: center; }
+        .app-title { font-size: 1.3rem; font-weight: bold; }
         .app-subtitle { font-size: 0.8rem; color: #bfdbfe; margin-top: 2px; }
         main { padding: 15px; max-width: 500px; margin: 0 auto; }
         
-        /* Two-Tier Tab Layout Controller */
+        /* Fixed, ultra-stable simple navigation tabs */
         .tab-box { display: flex; background: #e2e8f0; border-radius: 8px; padding: 4px; margin-bottom: 15px; gap: 4px; }
-        .tab-trigger { flex: 1; border: none; background: transparent; padding: 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: #64748b; }
-        .tab-trigger.active { background: #ffffff; color: #3b82f6; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .tab-trigger { flex: 1; border: 1px solid #cbd5e1; background: #e2e8f0; padding: 12px 5px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.85rem; color: #475569; }
+        .tab-trigger.active { background: #ffffff; color: #3b82f6; border-color: #3b82f6; }
         
         .view-panel { display: none; }
         .view-panel.active { display: block; }
         
         .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        h3 { font-size: 0.9rem; font-weight: bold; color: #3b82f6; margin-top: 0; margin-bottom: 12px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-        label { display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 6px; color: #475569; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; margin-bottom: 12px; box-sizing: border-box; background-color: #ffffff; color: #000000; }
+        h3 { font-size: 0.95rem; font-weight: bold; color: #3b82f6; margin-top: 0; margin-bottom: 12px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; text-transform: uppercase; }
+        label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 6px; color: #475569; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; margin-bottom: 12px; box-sizing: border-box; background-color: #ffffff; color: #000000; }
         .grid-2 { display: grid; grid-template-cols: 1fr 1fr; gap: 10px; }
         
-        .btn-action { background-color: #3b82f6; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; width: 100%; cursor: pointer; text-transform: uppercase; margin-bottom: 8px; }
+        .btn-action { background-color: #3b82f6; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 0.95rem; width: 100%; cursor: pointer; text-transform: uppercase; margin-bottom: 8px; }
         .btn-success { background-color: #22c55e; }
-        .btn-danger { background-color: #ef4444; font-size: 0.75rem; padding: 6px 10px; width: auto; }
+        .btn-danger { background-color: #ef4444; font-size: 0.75rem; padding: 6px 10px; width: auto; color: white; border-radius: 6px; border: none; font-weight: bold; }
         
-        .item-row { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 0.85rem; }
+        .item-row { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 0.85rem; }
         .result-screen { background-color: #0f172a; color: #f8fafc; padding: 15px; border-radius: 10px; font-family: monospace; font-size: 0.85rem; margin-top: 12px; line-height: 1.6; }
         .result-line { display: flex; justify-content: space-between; }
         .hr-dot { border: none; border-top: 1px dashed #334155; margin: 8px 0; }
@@ -38,28 +38,28 @@
 <body>
 
     <header>
-        <div class="app-title">Distro Bill</div>
+        <div class="app-title">Bill</div>
         <div class="app-subtitle">Custom Items, Order Desk & WhatsApp</div>
     </header>
 
     <main>
         <!-- MASTER NAVIGATION TABS -->
         <div class="tab-box">
-            <button onclick="changeAppTab('setup')" id="tab-btn-setup" class="tab-trigger active">⚙️ Item Settings</button>
-            <button onclick="changeAppTab('order')" id="tab-btn-order" class="tab-trigger">📋 1. Order Desk</button>
-            <button onclick="changeAppTab('billing')" id="tab-btn-billing" class="tab-trigger">💸 2. Billing Desk</button>
+            <button onclick="changeAppTab('setup')" id="tab-btn-setup" class="tab-trigger active">Item Settings</button>
+            <button onclick="changeAppTab('order')" id="tab-btn-order" class="tab-trigger">1. Order Desk</button>
+            <button onclick="changeAppTab('billing')" id="tab-btn-billing" class="tab-trigger">2. Billing Desk</button>
         </div>
 
         <!-- PANEL 1: ITEM CONFIGURATION SETTINGS -->
         <div id="view-panel-setup" class="view-panel active">
             <div class="card">
-                <h3>➕ Add Custom Biscuit/Item</h3>
+                <h3>Add Custom Biscuit/Item</h3>
                 <label>Product Name</label>
-                <input type="text" id="new-item-name" placeholder="e.g. Marie Gold Box (Pack of 12)">
+                <input type="text" id="new-item-name" placeholder="e.g. Cream Biscuit Pack">
                 
                 <div class="grid-2">
                     <div>
-                        <label>Base Wholesale Price (₹)</label>
+                        <label>Price (₹)</label>
                         <input type="number" step="0.01" id="new-item-price" placeholder="0.00">
                     </div>
                     <div>
@@ -72,11 +72,11 @@
                         </select>
                     </div>
                 </div>
-                <button type="button" class="btn-action" onclick="addNewProductToCatalog()">Add Product to App Memory</button>
+                <button type="button" class="btn-action" onclick="addNewProductToCatalog()">Add Product to Memory</button>
             </div>
             
             <div class="card">
-                <h3>📦 Active Inventory Catalog</h3>
+                <h3>Active Inventory Catalog</h3>
                 <div id="catalog-list-display"></div>
             </div>
         </div>
@@ -84,7 +84,7 @@
         <!-- PANEL 2: ORDER GENERATION PANEL -->
         <div id="view-panel-order" class="view-panel">
             <div class="card">
-                <h3>👥 Shop Profile & Route</h3>
+                <h3>Shop Profile & Route</h3>
                 <label>Retailer Store Name</label>
                 <input type="text" id="order-store-name" placeholder="e.g. Balaji Kirana Store" value="Sharma Store">
                 
@@ -104,22 +104,22 @@
             </div>
 
             <div class="card">
-                <h3>📝 Quantities Ordered</h3>
+                <h3>Quantities Ordered</h3>
                 <div id="order-inputs-container"></div>
-                <button type="button" class="btn-action btn-success" onclick="processOrderGeneration()">Compile & lock Fresh Order</button>
+                <button type="button" class="btn-action btn-success" onclick="processOrderGeneration()">Compile & Lock Order</button>
             </div>
 
             <div class="card" id="compiled-order-card" style="display:none;">
-                <h3>📦 Compiled Order Summary</h3>
+                <h3>Compiled Order Summary</h3>
                 <div id="compiled-order-summary-box" class="result-screen" style="background:#f8fafc; color:#334155; border:1px solid #cbd5e1;"></div>
-                <button type="button" class="btn-action" style="background:#555; margin-top:10px;" onclick="changeAppTab('billing')">Proceed to Payment Billing Desk ➡️</button>
+                <button type="button" class="btn-action" style="background:#555; margin-top:10px;" onclick="changeAppTab('billing')">Proceed to Billing Desk ➡️</button>
             </div>
         </div>
 
         <!-- PANEL 3: BILLING GENERATION PANEL -->
-        <div id="view-panel-billing" class="page-view view-panel">
+        <div id="view-panel-billing" class="view-panel">
             <div class="card">
-                <h3>💰 Outstanding Dues & Spot Collection</h3>
+                <h3>Outstanding Dues & Spot Collection</h3>
                 <div class="grid-2">
                     <div>
                         <label>Prior Ledger Dues (₹)</label>
@@ -130,12 +130,12 @@
                         <input type="number" step="0.01" id="bill-cash-paid" value="0" placeholder="0.00" oninput="recalculateLiveBillingLedger()">
                     </div>
                 </div>
-                <button type="button" class="btn-action btn-success" onclick="finalizeTaxInvoiceAndDues()">Generate Official GST Invoice</button>
+                <button type="button" class="btn-action btn-success" onclick="finalizeTaxInvoiceAndDues()">Generate GST Invoice</button>
             </div>
 
             <!-- DYNAMIC CALCULATION BREAKDOWN PANEL -->
             <div class="card" id="billing-summary-card" style="display:none;">
-                <h3>📊 Tax & Outstanding Invoice Ledger</h3>
+                <h3>Tax & Outstanding Invoice Ledger</h3>
                 <div class="result-screen">
                     <div class="result-line"><span>Taxable Base Value:</span><span id="lbl-base">₹0.00</span></div>
                     <div class="result-line" style="color:#94a3b8;"><span>CGST Split Calculation:</span><span id="lbl-cgst">₹0.00</span></div>
@@ -148,18 +148,20 @@
                 </div>
 
                 <!-- SELECTIVE WHATSAPP SHARING PORTAL -->
-                <h3 style="margin-top:20px; border-bottom:1px solid #cbd5e1;">💬 Selective WhatsApp Message Desk</h3>
+                <h3 style="margin-top:20px; border-bottom:1px solid #cbd5e1;">Selective WhatsApp Message Desk</h3>
                 <label>Review/Edit text message before sending:</label>
-                <textarea id="whatsapp-message-box"></textarea>
+                <textarea id="whatsapp-message-box" style="height: 150px;"></textarea>
                 
-                <button type="button" class="btn-action" style="background:#22c55e;" onclick="triggerWhatsAppShareLink()">📲 Send Customized Invoice Text</button>
+                <button type="button" class="btn-action" style="background:#22c55e;" onclick="triggerWhatsAppShareLink()">Send Invoice Text via WhatsApp</button>
             </div>
         </div>
     </main>
 
     <script>
-        // Core Internal Database States
+        // Core Internal Database States (Simplified to never throw exceptions)
         let state = {
-            products: JSON.parse(localStorage.getItem('pro_db_products')) || [
+            products: [
                 { id: 1, name: "Glucose Biscuits Pack", price: 240, gstRate: 18 },
                 { id: 2, name: "Cream Wafers Box", price: 450, gstRate: 18 },
+                { id: 3, name: "Mixed Fruit Candy Pouch", price: 180, gstRate: 12 }
+            ],
