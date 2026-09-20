@@ -3,135 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confectionery Distributor Hub</title>
+    <title>Distributor Hub</title>
     <style>
-        body { background-color: #f3f4f6; padding: 0; margin: 0; font-family: sans-serif; color: #1f2937; }
-        header { background-color: #4f46e5; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        body { background-color: #f3f4f6; padding: 0; margin: 0; font-family: sans-serif; color: #1f2937; padding-bottom: 40px; }
+        header { background-color: #4f46e5; color: white; padding: 15px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .app-title { font-size: 1.2rem; font-weight: bold; }
-        .app-subtitle { font-size: 0.75rem; color: #c7d2fe; }
-        
-        .control-bar { background: #ffffff; padding: 10px; display: flex; justify-content: space-around; border-bottom: 2px solid #e5e7eb; gap: 5px; }
-        .nav-btn { flex: 1; padding: 10px; font-weight: bold; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 8px; cursor: pointer; font-size: 0.85rem; color: #475569; }
-        .nav-btn.active { background: #4f46e5; color: white; border-color: #4f46e5; }
-
+        .app-subtitle { font-size: 0.75rem; color: #c7d2fe; margin-top: 2px; }
         main { padding: 15px; max-width: 480px; margin: 0 auto; }
-        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; }
-        .btn { padding: 10px 14px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-block; text-align: center; }
-        .btn-primary { background-color: #4f46e5; color: white; width: 100%; padding: 12px; font-size: 0.95rem; }
-        .btn-success { background-color: #16a34a; color: white; width: 100%; padding: 12px; font-size: 0.95rem; margin-top: 10px; }
-        .btn-danger { background-color: #dc2626; color: white; padding: 6px 10px; font-size: 0.75rem; border-radius: 6px; }
-        .btn-secondary { background-color: #e5e7eb; color: #4b5563; }
-        
-        input, select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; margin-bottom: 12px; box-sizing: border-box; display: block; background: #fff; color: #000; }
-        .day-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 15px; }
-        .day-tab { padding: 8px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; border: 1px solid #e5e7eb; background: white; white-space: nowrap; cursor: pointer; color: #1f2937; }
-        .day-tab.active { background: #4f46e5; color: white; border-color: #4f46e5; }
-        .qty-btn { width: 40px; height: 40px; border: 1px solid #d1d5db; background: #f3f4f6; font-weight: bold; font-size: 1.3rem; border-radius: 8px; cursor: pointer; color: #000; }
-        .qty-display { min-width: 35px; text-align: center; font-weight: bold; display: inline-block; font-size: 1.1rem; }
-        
-        .dark-summary { background-color: #111827; color: #e5e7eb; padding: 15px; border-radius: 12px; font-size: 0.85rem; line-height: 1.6; margin-top: 10px; }
-        .dark-summary hr { border-color: #374151; margin: 10px 0; }
-        .pending-red { color: #dc2626; font-weight: bold; }
-        .pending-green { color: #16a34a; font-weight: bold; }
-        .page-view { display: none; }
-        .page-view.active { display: block; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        h3 { font-size: 0.95rem; font-weight: bold; color: #4f46e5; margin-top: 0; margin-bottom: 12px; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        label { display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 6px; color: #475569; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; margin-bottom: 14px; box-sizing: border-box; background-color: #ffffff; color: #000000; -webkit-appearance: none; }
+        .grid-2 { display: grid; grid-template-cols: 1fr 1fr; gap: 10px; }
+        .btn-calc { background-color: #16a34a; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; width: 100%; cursor: pointer; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-top: 5px; }
+        .btn-calc:active { background-color: #15803d; }
+        .result-box { background-color: #111827; color: #f3f4f6; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; margin-top: 15px; line-height: 1.5; }
+        .result-line { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .text-green { color: #4ade80; font-weight: bold; }
+        .text-red { color: #f87171; font-weight: bold; }
+        textarea { width: 100%; height: 160px; margin-top: 15px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; font-size: 0.85rem; box-sizing: border-box; background: #fafafa; font-family: monospace; }
+        .alert-info { background-color: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; padding: 10px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 15px; font-weight: 500; text-align: center; }
     </style>
 </head>
 <body>
 
     <header>
-        <div>
-            <div class="app-title">DistroBill India</div>
-            <div class="app-subtitle">Offline Route & GST Suite</div>
-        </div>
-        <button onclick="clearAndResetApp()" class="btn btn-secondary" style="font-size:0.7rem; padding:4px 8px;">🔄 Reset App</button>
+        <div class="app-title">DistroBill India</div>
+        <div class="app-subtitle">Stable Route & GST Counter</div>
     </header>
 
-    <!-- MENU TABS DIRECT CONTROL -->
-    <div class="control-bar">
-        <button onclick="switchView('dashboard')" id="nav-dashboard" class="nav-btn active">📋 Routes</button>
-        <button onclick="switchView('retailers')" id="nav-retailers" class="nav-btn">👥 Add Shops</button>
-        <button onclick="switchView('products')" id="nav-products" class="nav-btn">📦 Add Items</button>
-    </div>
-
     <main>
-        <!-- VIEW 1: FLEET DAILY ROUTE LISTS -->
-        <div id="view-dashboard" class="page-view active">
-            <h3 style="margin-top:0; margin-bottom:12px; font-size:1rem;">📅 Select Day Route:</h3>
-            <div class="day-container">
-                <button onclick="setDay('Monday')" id="tab-Mon" class="day-tab active">Monday</button>
-                <button onclick="setDay('Tuesday')" id="tab-Tue" class="day-tab">Tuesday</button>
-                <button onclick="setDay('Wednesday')" id="tab-Wed" class="day-tab">Wednesday</button>
-                <button onclick="setDay('Thursday')" id="tab-Thu" class="day-tab">Thursday</button>
-                <button onclick="setDay('Friday')" id="tab-Fri" class="day-tab">Friday</button>
-                <button onclick="setDay('Saturday')" id="tab-Sat" class="day-tab">Saturday</button>
-            </div>
-            
-            <h4 id="route-title" style="font-size:0.85rem; text-transform:uppercase; color:#4f46e5; margin-bottom:12px; font-weight:bold;">Monday Route List</h4>
-            
-            <!-- Safe Direct Action Button if list is initially empty -->
-            <div id="dashboard-setup-tip" class="card" style="background:#fffbeb; border-color:#fef3c7; text-align:center;">
-                <p style="font-size:0.85rem; color:#b45309; margin-bottom:10px; font-weight:500;">⚠️ The app database needs to wake up for this phone.</p>
-                <button onclick="clearAndResetApp()" class="btn btn-primary" style="background:#d97706;">⚡ Tap Here to Load Sample Data</button>
-            </div>
-            
-            <div id="dashboard-list"></div>
+        <div class="alert-info">
+            📱 Works 100% Offline anywhere on Route. Fill information details & tap generate text bill button below.
         </div>
 
-        <!-- VIEW 2: SHOP PROFILE REGISTRY -->
-        <div id="view-retailers" class="page-view">
-            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">👥 Shop Management</h3>
-            <form onsubmit="handleRetailerSubmit(event)" class="card" style="background:#f8fafc; border: 1px solid #cbd5e1;">
-                <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;">➕ REGISTER NEW STORE</p>
-                <input type="text" id="ret-name" placeholder="Shop Name (e.g., Balaji Kirana)" required>
-                <input type="text" id="ret-loc" placeholder="Market Location Area" required>
-                <select id="ret-day">
-                    <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
-                    <option>Thursday</option><option>Friday</option><option>Saturday</option>
-                </select>
-                <input type="number" step="0.01" id="ret-pending" placeholder="Opening Due Balance (₹)" value="0">
-                <button type="submit" class="btn btn-primary">Save Shop Profile</button>
-            </form>
-            <div id="retailers-list"></div>
+        <!-- STAGE 1: SHOP & ROUTE METRICS -->
+        <div class="card">
+            <h3>👥 Store & Route Info</h3>
+            <label>Retailer / Shop Name</label>
+            <input type="text" id="bill-name" placeholder="e.g. Balaji Kirana Store" value="Sharma Store">
+
+            <div class="grid-2">
+                <div>
+                    <label>Location Area</label>
+                    <input type="text" id="bill-loc" placeholder="e.g. Main Bazar" value="Station Road">
+                </div>
+                <div>
+                    <label>Delivery Day</label>
+                    <select id="bill-day">
+                        <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+                        <option>Thursday</option><option>Friday</option><option>Saturday</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <!-- VIEW 3: PRODUCT INVENTORY CONFIGURATION -->
-        <div id="view-products" class="page-view">
-            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">📦 Product Pricing Catalog</h3>
-            <form onsubmit="handleProductSubmit(event)" class="card" style="background:#f8fafc; border: 1px solid #cbd5e1;">
-                <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;">➕ ADD NEW ITEM SKU</p>
-                <input type="text" id="prod-name" placeholder="Item Details (e.g., Biscuit Box)" required>
-                <input type="number" step="0.01" id="prod-price" placeholder="Wholesale Base Price (₹)" required>
-                <select id="prod-gst">
-                    <option value="18">18% GST (Confectionery Standard)</option>
-                    <option value="12">12% GST</option>
-                    <option value="5">5% GST</option>
-                    <option value="0">0% GST Exempt</option>
-                </select>
-                <button type="submit" class="btn btn-primary">Add Item to Catalog</button>
-            </form>
-            <div id="products-list"></div>
+        <!-- STAGE 2: STOCK DELIVERED DETAILS -->
+        <div class="card">
+            <h3>📦 Delivered Stock Values</h3>
+            <div class="alert-info" style="background:#f8fafc; border-color:#e2e8f0; color:#64748b; font-weight:normal; text-align:left; padding:8px;">
+                Enter the quantities delivered for each product below.
+            </div>
+            
+            <label>Glucose Biscuits Pack (Wholesale Base Price: ₹240, GST: 18%)</label>
+            <input type="number" id="qty-p1" value="0" min="0" placeholder="Number of boxes/packs">
+
+            <label>Cream Wafers Box (Wholesale Base Price: ₹450, GST: 18%)</label>
+            <input type="number" id="qty-p2" value="0" min="0" placeholder="Number of boxes/packs">
+
+            <label>Mixed Fruit Candy Pouch (Wholesale Base Price: ₹180, GST: 12%)</label>
+            <input type="number" id="qty-p3" value="0" min="0" placeholder="Number of pouches">
         </div>
 
-        <!-- VIEW 4: ACTIVE BILLING DESK SHEET -->
-        <div id="view-billing" class="page-view">
-            <div style="margin-bottom:15px; font-size:0.9rem; color:#4f46e5; font-weight:bold; cursor:pointer;" onclick="switchView('dashboard')">⬅️ Back to Deliveries</div>
-            <div class="card" style="background:#e0e7ff; border-color:#c7d2fe;">
-                <h3 style="margin:0; font-size:1.1rem; font-weight:bold;" id="bill-shop-name">Shop Name</h3>
-                <p style="font-size:0.85rem; color:#4b5563; margin-top:4px;" id="bill-shop-loc">📍 Zone: Main Bazar</p>
+        <!-- STAGE 3: OUTSTANDING BALANCES AND CASH COLLECTED -->
+        <div class="card">
+            <h3>💰 Payments & Account Ledger</h3>
+            <div class="grid-2">
+                <div>
+                    <label>Previous Dues (₹)</label>
+                    <input type="number" step="0.01" id="ledger-old" value="1500" placeholder="0.00">
+                </div>
+                <div>
+                    <label>Cash Collected Now (₹)</label>
+                    <input type="number" step="0.01" id="ledger-paid" value="0" placeholder="0.00">
+                </div>
             </div>
-            <div class="card">
-                <p style="font-size:0.8rem; font-weight:bold; color:#4b5563; border-bottom:1px solid #e5e7eb; padding-bottom:8px; margin-bottom:8px;">SELECT DELIVERED QUANTITIES</p>
-                <div id="billing-items-container"></div>
+
+            <!-- ONE SECURE TRIGGER BUTTON CONTROL -->
+            <button type="button" class="btn-calc" onclick="calculateIndianGstInvoice()">Calculate & Create WhatsApp Bill</button>
+        </div>
+
+        <!-- STAGE 4: LIVE CALCULATION LOG DISPLAY SCREEN -->
+        <div class="card" id="output-card" style="display:none;">
+            <h3>📊 Invoice Totals</h3>
+            <div class="result-box">
+                <div class="result-line"><span>Taxable Base Value:</span><span id="res-base">₹0.00</span></div>
+                <div class="result-line" style="color:#9ca3af;"><span>CGST Split (9%):</span><span id="res-cgst">₹0.00</span></div>
+                <div class="result-line" style="color:#9ca3af;"><span>SGST Split (9%):</span><span id="res-sgst">₹0.00</span></div>
+                <hr style="border-color:#374151; margin:8px 0;">
+                <div class="result-line"><span class="text-green">Current Bill Total:</span><span id="res-bill" class="text-green">₹0.00</span></div>
+                <div class="result-line"><span>Old Market Credit:</span><span id="res-old">₹0.00</span></div>
+                <hr style="border-color:#374151; margin:8px 0;">
+                <div class="result-line"><span class="text-red">Net Pending Balance:</span><span id="res-pending" class="text-red">₹0.00</span></div>
             </div>
-            <div class="dark-summary">
-                <p style="color:#818cf8; font-weight:bold; margin-top:0; margin-bottom:8px;">GST COMPLIANCE TOTALS</p>
-                <div class="flex-between"><span>Taxable Base Value:</span><span id="summary-taxable">₹0.00</span></div>
-                <div class="flex-between" style="color:#9ca3af;"><span>CGST (9% Split):</span><span id="summary-cgst">₹0.00</span></div>
-                <div class="flex-between" style="color:#9ca3af;"><span>SGST (9% Split):</span><span id="summary-sgst">₹0.00</span></div>
-                <hr>
-                <div class="flex-between" style="font-weight:bold; font-size:0.95rem; color:#34d399;"><span>Current Bill Value:</span><span id="summary-bill-total">₹0.00</span></div>
-                <div class="flex-between" style="color:#f87171;"><span>Prior Market Credit:</span><span id="summary-old-dues">₹0.00</span></div>
-                <hr>
-                <div style="margin-top:10px; margin-bottom:10px;">
+            
+            <label style="margin-top:15px; margin-bottom:5px;">📋 WhatsApp Message Text Preview (Auto-Copied):</label>
+            <textarea id="whatsapp-text" readonly></textarea>
+        </div>
+    </main>
+
+    <script>
+        function calculateIndianGstInvoice() {
+            // Read hardware input nodes safely without internal script crashes
+            var shopName = document.getElementById('bill-name').value || "Retailer Store";
+            var location = document.getElementById('bill-loc').value || "Market Route";
+            var routeDay = document.getElementById('bill-day').value;
+            
+            var q1 = parseInt(document.getElementById('qty-p1').value) || 0;
+            var q2 = parseInt(document.getElementById('qty-p2').value) || 0;
+            var q3 = parseInt(document.getElementById('qty-p3').value) || 0;
+            
+            var oldDues = parseFloat(document.getElementById('ledger-old').value) || 0;
+            var cashPaid = parseFloat(document.getElementById('ledger-paid').value) || 0;
+
+            // Product values calculation logic matrices
+            var base1 = q1 * 240; var tax1 = base1 * 0.18;
+            var base2 = q2 * 450; var tax2 = base2 * 0.18;
+            var base3 = q3 * 180; var tax3 = base3 * 0.12;
+
+            var totalTaxable = base1 + base2 + base3;
+            var totalTax = tax1 + tax2 + tax3;
+            var currentBillTotal = totalTaxable + totalTax;
+            var runningFinalPending = (currentBillTotal + oldDues) - cashPaid;
+
+            // Render numeric metrics directly to styling output nodes
+            document.getElementById('res-base').innerText = "₹" + totalTaxable.toFixed(2);
+            document.getElementById('res-cgst').innerText = "₹" + (totalTax / 2).toFixed(2);
+            document.getElementById('res-sgst').innerText = "₹" + (totalTax / 2).toFixed(2);
+            document.getElementById('res-bill').innerText = "₹" + currentBillTotal.toFixed(2);
+            document.getElementById('res-old').innerText = "₹" + oldDues.toFixed(2);
+            document.getElementById('res-pending').innerText = "₹" + runningFinalPending.toFixed(2);
+
+            // Construct delivered items text summary breakdown list
+            var summaryList = [];
+            if(q1 > 0) summaryList.push("- Glucose Biscuits x " + q1 + " Box");
+            if(q2 > 0) summaryList.push("- Cream Wafers x " + q2 + " Box");
+            if(q3 > 0) summaryList.push("- Mixed Fruit Candy x " + q3 + " Pouch");
+            if(summaryList.length === 0) summaryList.push("- No stock items selected");
+
+            var today = new Date();
+            var dateString = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear();
+
+            // Format WhatsApp clean structural text invoice message block
+            var textMessage = 
+                "*TAX INVOICE SUMMARY* 🧾\n" +
+                "*Date:* " + dateString + "\n" +
+                "*Route Run Day:* " + routeDay + "\n" +
+                "---------------------------------\n" +
+                "*Customer:* " + shopName + "\n" +
+                "*Location:* " + location + "\n" +
+                "---------------------------------\n" +
