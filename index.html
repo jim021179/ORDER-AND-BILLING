@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confectionery Distributor Hub</title>
+    <title> Distributor Hub</title>
     <style>
         body { background-color: #f3f4f6; padding: 0; margin: 0; font-family: sans-serif; color: #1f2937; padding-bottom: 80px; }
         header { background-color: #4f46e5; color: white; padding: 15px; position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .app-title { font-size: 1.2rem; font-weight: bold; }
         .app-subtitle { font-size: 0.75rem; color: #c7d2fe; }
-        main { padding: 15px; max-width: 480px; margin: 0 auto; display: block !important; }
-        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: block; }
+        main { padding: 15px; max-width: 480px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
         .btn { padding: 10px 14px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-block; text-align: center; }
         .btn-primary { background-color: #4f46e5; color: white; }
@@ -18,7 +18,7 @@
         .btn-danger { background-color: #dc2626; color: white; padding: 5px 8px; font-size: 0.75rem; }
         .btn-edit { background-color: #eab308; color: white; padding: 5px 8px; font-size: 0.75rem; margin-right: 5px; }
         .btn-secondary { background-color: #e5e7eb; color: #4b5563; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem; margin-bottom: 10px; box-sizing: border-box; display: block; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem; margin-bottom: 10px; box-sizing: border-box; }
         .day-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 15px; }
         .day-tab { padding: 8px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; border: 1px solid #e5e7eb; background: white; white-space: nowrap; cursor: pointer; }
         .day-tab.active { background: #4f46e5; color: white; border-color: #4f46e5; }
@@ -32,6 +32,8 @@
         .badge { font-size: 0.7rem; padding: 2px 6px; background: #e5e7eb; border-radius: 4px; font-weight: bold; color: #374151; }
         .pending-red { color: #dc2626; font-weight: bold; }
         .pending-green { color: #16a34a; font-weight: bold; }
+        .page-view { display: none; }
+        .page-view.active { display: block; }
     </style>
 </head>
 <body>
@@ -44,120 +46,86 @@
         <button onclick="clearAndResetApp()" class="btn btn-secondary" style="font-size:0.7rem; padding:4px 8px;">🔄 Reset App</button>
     </header>
 
-    <main id="app-content">
-        <!-- Views load here -->
-    </main>
+    <main>
+        <!-- PAGE 1: ROUTES DASHBOARD -->
+        <div id="view-dashboard" class="page-view active">
+            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">📅 Distribution Schedule</h3>
+            <div class="day-container">
+                <button onclick="setDay('Monday')" id="tab-Mon" class="day-tab active">Monday</button>
+                <button onclick="setDay('Tuesday')" id="tab-Tue" class="day-tab">Tuesday</button>
+                <button onclick="setDay('Wednesday')" id="tab-Wed" class="day-tab">Wednesday</button>
+                <button onclick="setDay('Thursday')" id="tab-Thu" class="day-tab">Thursday</button>
+                <button onclick="setDay('Friday')" id="tab-Fri" class="day-tab">Friday</button>
+                <button onclick="setDay('Saturday')" id="tab-Sat" class="day-tab">Saturday</button>
+            </div>
+            
+            <h4 id="route-title" style="font-size:0.8rem; text-transform:uppercase; color:#6b7280; margin-bottom:10px;">Monday Route List</h4>
+            <div id="dashboard-list"></div>
+        </div>
 
-    <nav>
-        <button onclick="switchView('dashboard')" id="nav-dashboard" class="nav-link active">📋 Routes</button>
-        <button onclick="switchView('retailers')" id="nav-retailers" class="nav-link">👥 Shops</button>
-        <button onclick="switchView('products')" id="nav-products" class="nav-link">📦 Items</button>
-    </nav>
-
-    <script>
-        // Safe database initializer variables
-        let defaultRetailers = [
-            { id: 1, name: "Sharma Kirana Store", location: "Main Bazar", day: "Monday", pending: 1500 },
-            { id: 2, name: "Gupta Confectionery", location: "Station Road", day: "Monday", pending: 0 },
-            { id: 3, name: "Krishna Sweets", location: "Highway Plaza", day: "Tuesday", pending: 450 }
-        ];
-
-        let defaultProducts = [
-            { id: 1, name: "Glucose Biscuits (24 Pck)", price: 240, gstRate: 18 },
-            { id: 2, name: "Cream Wafers (Box)", price: 450, gstRate: 18 },
-            { id: 3, name: "Mixed Fruit Candy Pouch", price: 180, gstRate: 12 }
-        ];
-
-        let state = {
-            currentDay: 'Monday',
-            retailers: defaultRetailers,
-            products: defaultProducts,
-            currentCart: {},
-            editingRetailerId: null,
-            editingProductId: null
-        };
-
-        // Safety try-catch data parse layout blocks
-        try {
-            let storedRetailers = localStorage.getItem('db_offline_retailers');
-            let storedProducts = localStorage.getItem('db_offline_products');
-            if (storedRetailers) state.retailers = JSON.parse(storedRetailers);
-            if (storedProducts) state.products = JSON.parse(storedProducts);
-        } catch (e) {
-            console.log("Memory cleared to fix crash code setup initialization");
-            state.retailers = defaultRetailers;
-            state.products = defaultProducts;
-        }
-
-        function saveToOfflineStorage() {
-            try {
-                localStorage.setItem('db_offline_retailers', JSON.stringify(state.retailers));
-                localStorage.setItem('db_offline_products', JSON.stringify(state.products));
-            } catch(e) {
-                alert("Storage full or blocked.");
-            }
-        }
-
-        function switchView(view, param = null) {
-            ['dashboard', 'retailers', 'products'].forEach(v => {
-                const el = document.getElementById(`nav-${v}`);
-                if(el) el.className = v === view ? "nav-link active" : "nav-link";
-            });
-
-            const content = document.getElementById('app-content');
-            if (view === 'dashboard') renderDashboard(content);
-            else if (view === 'retailers') renderRetailersView(content);
-            else if (view === 'products') renderProductsView(content);
-            else if (view === 'billing' && param) renderBillingView(content, param);
-        }
-
-        function renderDashboard(container) {
-            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const dailyRetailers = state.retailers.filter(r => r.day === state.currentDay);
-
-            let dayTabs = days.map(d => `
-                <button onclick="state.currentDay='${d}'; switchView('dashboard');" class="day-tab ${state.currentDay === d ? 'active' : ''}">
-                    ${d}
-                </button>
-            `).join('');
-
-            let listHtml = dailyRetailers.length === 0 
-                ? `<div class="card" style="text-align:center; color:#6b7280; border-style:dashed;">No stores scheduled for ${state.currentDay}. Add stores in 'Shops' tab below!</div>`
-                : dailyRetailers.map(r => `
-                    <div class="card flex-between">
-                        <div>
-                            <h4 style="margin:0; font-size:1rem; font-weight:bold;">${r.name}</h4>
-                            <p style="font-size:0.75rem; color:#6b7280; margin: 4px 0;">📍 ${r.location}</p>
-                            <p style="font-size:0.8rem; margin:0;" class="${r.pending > 0 ? 'pending-red' : 'pending-green'}">Dues: ₹${parseFloat(r.pending).toFixed(2)}</p>
-                        </div>
-                        <button onclick="switchView('billing', ${r.id})" class="btn btn-primary">⚡ Bill Shop</button>
-                    </div>
-                `).join('');
-
-            container.innerHTML = `
-                <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">📅 Distribution Schedule</h3>
-                <div class="day-container">${dayTabs}</div>
-                <h4 style="font-size:0.8rem; text-transform:uppercase; color:#6b7280; margin-bottom:10px;">${state.currentDay} Route List</h4>
-                ${listHtml}
-            `;
-        }
-
-        function renderRetailersView(container) {
-            let listHtml = state.retailers.map(r => `
-                <div class="card flex-between">
-                    <div>
-                        <p style="font-weight:bold; margin:0; font-size:0.95rem;">${r.name}</p>
-                        <p style="font-size:0.75rem; color:#6b7280; margin:2px 0;">${r.location} • <span style="color:#4f46e5; font-weight:600;">${r.day}</span></p>
-                        <p style="font-size:0.75rem; margin:0;" class="${r.pending > 0 ? 'pending-red' : 'pending-green'}">Balance: ₹${parseFloat(r.pending).toFixed(2)}</p>
-                    </div>
-                    <div>
-                        <button onclick="editRetailerTrigger(${r.id})" class="btn btn-edit">✏️</button>
-                        <button onclick="deleteRetailer(${r.id})" class="btn btn-danger">❌</button>
-                    </div>
+        <!-- PAGE 2: SHOPS REGISTRY -->
+        <div id="view-retailers" class="page-view">
+            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">👥 Shops Registry</h3>
+            <form onsubmit="handleRetailerSubmit(event)" class="card" style="background:#f9fafb;">
+                <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;" id="ret-form-title">➕ ADD NEW RETAILER SHOP</p>
+                <input type="text" id="ret-name" placeholder="Shop / Retailer Name" required>
+                <input type="text" id="ret-loc" placeholder="Location Market Area" required>
+                <select id="ret-day">
+                    <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+                    <option>Thursday</option><option>Friday</option><option>Saturday</option>
+                </select>
+                <input type="number" step="0.01" id="ret-pending" placeholder="Opening Outstanding Due (₹)" value="0">
+                <div style="display:flex; gap:8px;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;" id="btn-ret-save">Save Shop Profile</button>
+                    <button type="button" onclick="cancelRetailerEdit()" id="btn-ret-cancel" class="btn btn-secondary" style="display:none;">Cancel</button>
                 </div>
-            `).join('');
+            </form>
+            <div id="retailers-list"></div>
+        </div>
 
-            container.innerHTML = `
-                <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">👥 Shops Registry</h3>
-                <form onsubmit="handleRetailerSubmit(event)" class="card" style="background:#f9fafb;">
-                    <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;" id="ret-form-title">➕ ADD NEW RETAILER SHOP</p>
+        <!-- PAGE 3: ITEM CATALOG -->
+        <div id="view-products" class="page-view">
+            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">📦 Product List</h3>
+            <form onsubmit="handleProductSubmit(event)" class="card" style="background:#f9fafb;">
+                <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;" id="prod-form-title">➕ ADD NEW PRODUCT</p>
+                <input type="text" id="prod-name" placeholder="Item Name (e.g. Glucose Box)" required>
+                <input type="number" step="0.01" id="prod-price" placeholder="Wholesale Price (₹)" required>
+                <select id="prod-gst">
+                    <option value="18">18% GST (Standard)</option>
+                    <option value="12">12% GST</option>
+                    <option value="5">5% GST</option>
+                    <option value="0">0% Exempt</option>
+                </select>
+                <div style="display:flex; gap:8px;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;" id="btn-prod-save">Add to List</button>
+                    <button type="button" onclick="cancelProductEdit()" id="btn-prod-cancel" class="btn btn-secondary" style="display:none;">Cancel</button>
+                </div>
+            </form>
+            <div id="products-list"></div>
+        </div>
+
+        <!-- PAGE 4: BILLING ENTRY PANEL -->
+        <div id="view-billing" class="page-view">
+            <div style="margin-bottom:12px; font-size:0.85rem; color:#4f46e5; font-weight:bold; cursor:pointer;" onclick="switchView('dashboard')">⬅️ Back to Deliveries</div>
+            <div class="card" style="background:#e0e7ff; border-color:#c7d2fe; margin-bottom:12px;">
+                <h3 style="margin:0; font-size:1.1rem; font-weight:bold;" id="bill-shop-name">Shop Name</h3>
+                <p style="font-size:0.8rem; color:#4b5563; margin:4px 0 0 0;" id="bill-shop-loc">📍 Zone: Main Bazar</p>
+            </div>
+            <div class="card">
+                <p style="font-size:0.75rem; font-weight:bold; color:#4b5563; border-bottom:1px solid #e5e7eb; padding-bottom:6px; margin-bottom:6px;">ENTER DELIVERY STOCK</p>
+                <div id="billing-items-container"></div>
+            </div>
+            <div class="dark-summary">
+                <p style="color:#818cf8; font-weight:bold; margin-top:0; margin-bottom:8px;">GST COMPLIANCE SUMMARY</p>
+                <div class="flex-between"><span>Taxable Base Value:</span><span id="summary-taxable">₹0.00</span></div>
+                <div class="flex-between" style="color:#9ca3af;"><span>CGST (9% Split):</span><span id="summary-cgst">₹0.00</span></div>
+                <div class="flex-between" style="color:#9ca3af;"><span>SGST (9% Split):</span><span id="summary-sgst">₹0.00</span></div>
+                <hr>
+                <div class="flex-between" style="font-weight:bold; font-size:0.9rem; color:#34d399;"><span>Current Bill Value:</span><span id="summary-bill-total">₹0.00</span></div>
+                <div class="flex-between" style="color:#f87171;"><span>Old Market Balance:</span><span id="summary-old-dues">₹0.00</span></div>
+                <hr>
+                <div style="margin-top:10px;">
+                    <label style="color:#9ca3af; font-size:0.75rem; font-weight:bold;">💰 CASH COLLECTED NOW (₹)</label>
+                    <input type="number" step="0.01" id="live-cash-collected" oninput="runLiveCalculation()" placeholder="0.00" style="background:#1f2937; color:white; border-color:#374151; margin-top:6px; margin-bottom:0;">
+                </div>
+                <hr>
