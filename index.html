@@ -8,14 +8,20 @@
         body { background-color: #f1f5f9; padding: 0; margin: 0; font-family: sans-serif; color: #1e293b; font-size: 14px; }
         header { background-color: #2563eb; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2rem; }
         .subtitle { font-size: 0.75rem; color: #bfdbfe; font-weight: normal; margin-top: 2px; }
-        main { padding: 15px; max-w: 480px; margin: 0 auto; }
+        main { padding: 15px; max-width: 480px; margin: 0 auto; }
         .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .section-title { font-size: 0.9rem; font-weight: bold; color: #2563eb; margin-top: 0; margin-bottom: 12px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; text-transform: uppercase; }
         label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 6px; color: #475569; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; margin-bottom: 12px; box-sizing: border-box; background-color: #ffffff; color: #000000; }
         .grid-2 { display: grid; grid-template-cols: 1fr 1fr; gap: 10px; }
-        .btn-green { background-color: #22c55e; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; width: 100%; cursor: pointer; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        .btn-green { background-color: #22c55e; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 1rem; width: 100%; cursor: pointer; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-top: 5px; }
         .btn-green:active { background-color: #16a34a; }
+        
+        .btn-add-item { background-color: #e2e8f0; color: #2563eb; border: 2px dashed #2563eb; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; width: 100%; cursor: pointer; text-transform: uppercase; margin-bottom: 15px; text-align: center; }
+        .btn-add-item:active { background-color: #cbd5e1; }
+        
+        .product-block { background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:12px; position: relative; }
         .dark-box { background-color: #0f172a; color: #f8fafc; padding: 15px; border-radius: 10px; font-family: monospace; font-size: 0.85rem; margin-top: 12px; line-height: 1.6; }
         .flex-row { display: flex; justify-content: space-between; }
         .hr-dashed { border: none; border-top: 1px dashed #334155; margin: 8px 0; }
@@ -50,61 +56,48 @@
             </div>
         </div>
 
-        <!-- BLOCK 2: DYNAMIC CUSTOM PRODUCT TIER -->
+        <!-- BLOCK 2: DYNAMIC CONFECTIONERY ORDER ITEMS LOG -->
         <div class="card">
             <div class="section-title">📦 1. Order Generation Desk</div>
-            <p style="font-size:0.8rem; color:#64748b; margin-top:0; margin-bottom:12px;">Type item names, prices, and delivered quantities below:</p>
+            <p style="font-size:0.8rem; color:#64748b; margin-top:0; margin-bottom:12px;">Manage delivered stock logs. Tap the button below to append custom rows:</p>
             
-            <!-- Item 1 Input Config Matrix -->
-            <div style="background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:12px;">
-                <label>Product 1 Description Name</label>
-                <input type="text" id="p1-name" value="Glucose Biscuits Pack">
-                <div class="grid-2">
-                    <div>
-                        <label>Base Price (₹)</label>
-                        <input type="number" id="p1-price" value="240">
+            <div id="dynamic-items-list-box">
+                <!-- Preloaded Biscuit SKU Row 1 -->
+                <div class="product-block">
+                    <label>Product Description Name</label>
+                    <input type="text" class="item-name-field" value="Glucose Biscuits Pack">
+                    <div class="grid-2">
+                        <div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="240"></div>
+                        <div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>
                     </div>
-                    <div>
-                        <label>Qty Delivered</label>
-                        <input type="number" id="p1-qty" value="0">
+                </div>
+
+                <!-- Preloaded Biscuit SKU Row 2 -->
+                <div class="product-block">
+                    <label>Product Description Name</label>
+                    <input type="text" class="item-name-field" value="Cream Wafers Box">
+                    <div class="grid-2">
+                        <div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="450"></div>
+                        <div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>
+                    </div>
+                </div>
+
+                <!-- Preloaded Biscuit SKU Row 3 -->
+                <div class="product-block">
+                    <label>Product Description Name</label>
+                    <input type="text" class="item-name-field" value="Mixed Fruit Candy Pouch">
+                    <div class="grid-2">
+                        <div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="180"></div>
+                        <div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Item 2 Input Config Matrix -->
-            <div style="background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:12px;">
-                <label>Product 2 Description Name</label>
-                <input type="text" id="p2-name" value="Cream Wafers Box">
-                <div class="grid-2">
-                    <div>
-                        <label>Base Price (₹)</label>
-                        <input type="number" id="p2-price" value="450">
-                    </div>
-                    <div>
-                        <label>Qty Delivered</label>
-                        <input type="number" id="p2-qty" value="0">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Item 3 Input Config Matrix -->
-            <div style="background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0; margin-bottom:12px;">
-                <label>Product 3 Description Name</label>
-                <input type="text" id="p3-name" value="Mixed Fruit Candy Pouch">
-                <div class="grid-2">
-                    <div>
-                        <label>Base Price (₹)</label>
-                        <input type="number" id="p3-price" value="180">
-                    </div>
-                    <div>
-                        <label>Qty Delivered</label>
-                        <input type="number" id="p3-qty" value="0">
-                    </div>
-                </div>
-            </div>
+            <!-- CUSTOM ROWS APPENDFRAMEWORK CONTROL BUTTON -->
+            <button type="button" class="btn-add-item" onclick="appendNewProductRow()">➕ Add More Items / Products</button>
         </div>
 
-        <!-- BLOCK 3: ACCOUNTS LEDGER AND ACTION TRIGGER -->
+        <!-- BLOCK 3: LEDGER DUES TRACKING AND INVOICE TRIGGER -->
         <div class="card">
             <div class="section-title">💸 2. Payment Billing Desk</div>
             <div class="grid-2">
@@ -114,14 +107,14 @@
                 </div>
                 <div>
                     <label>Cash Collected Now (₹)</label>
-                    <input type="number" step="0.01" id="inp-cash-paid" value="0">
+                    <input type="number" step="0.01" id="inp-cash-paid" value="1000">
                 </div>
             </div>
             
             <button type="button" class="btn-green" onclick="generateInvoiceBreakdown()">Process Order & Bill Ledger</button>
         </div>
 
-        <!-- BLOCK 4: CALCULATION REPORT & SELECTIVE WHATSAPP DISPLAY -->
+        <!-- BLOCK 4: THE INVOICE BREAKDOWN REPORT AND SELECTIVE TEXT FIELD -->
         <div class="card" id="report-panel" style="display:none;">
             <div class="section-title">📊 Tax Invoice Ledger Summary</div>
             <div class="dark-box">
@@ -132,48 +125,38 @@
                 <div class="flex-row" style="color:#4ade80; font-weight:bold;"><span>Current Delivery Total:</span><span id="out-bill">₹0.00</span></div>
                 <div class="flex-row" style="color:#f87171;"><span>Prior Balance Account:</span><span id="out-old">₹0.00</span></div>
                 <div class="hr-dashed"></div>
-                <div class="flex-row" style="font-weight:bold; font-size:1rem; color:#f87171;"><span>Net Balance Pending:</span><span id="out-pending">₹0.00</span></div>
+                <div class="flex-row" style="font-weight:bold; font-size:1rem; color:#4ade80;" id="net-dues-row-wrapper"><span>Net Balance Pending:</span><span id="out-pending">₹0.00</span></div>
             </div>
 
             <h3 style="font-size: 0.85rem; font-weight: bold; margin-top: 15px; margin-bottom: 5px; color: #475569;">📋 Edit text message before sending on WhatsApp:</h3>
-            <textarea id="whatsapp-text-field" style="height:150px;"></textarea>
+            <textarea id="whatsapp-text-field" style="height:170px;"></textarea>
             
             <button type="button" class="btn-green" style="background-color:#2563eb;" onclick="launchWhatsAppSharing()">📲 Send Invoice Text via WhatsApp</button>
         </div>
     </main>
 
     <script>
+        // Appends a new item block container right into the order section list window view dynamically
+        function appendNewProductRow() {
+            var targetBox = document.getElementById('dynamic-items-list-box');
+            var customBlockNode = document.createElement('div');
+            customBlockNode.className = 'product-block';
+            customBlockNode.innerHTML = `
+                <label>Product Description Name</label>
+                <input type="text" class="item-name-field" placeholder="e.g. New Biscuit SKU Brand Pack">
+                <div class="grid-2">
+                    <div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="0"></div>
+                    <div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>
+                </div>
+            `;
+            targetBox.appendChild(customBlockNode);
+            window.scrollTo({ top: customBlockNode.offsetTop, behavior: 'smooth' });
+        }
+
         function generateInvoiceBreakdown() {
             var storeName = document.getElementById('inp-store-name').value;
             var location = document.getElementById('inp-location').value;
             var runDay = document.getElementById('inp-day').value;
-
-            var p1N = document.getElementById('p1-name').value;
-            var p1P = parseFloat(document.getElementById('p1-price').value) || 0;
-            var p1Q = parseInt(document.getElementById('p1-qty').value) || 0;
-
-            var p2N = document.getElementById('p2-name').value;
-            var p2P = parseFloat(document.getElementById('p2-price').value) || 0;
-            var p2Q = parseInt(document.getElementById('p2-qty').value) || 0;
-
-            var p3N = document.getElementById('p3-name').value;
-            var p3P = parseFloat(document.getElementById('p3-price').value) || 0;
-            var p3Q = parseInt(document.getElementById('p3-qty').value) || 0;
-
             var oldDues = parseFloat(document.getElementById('inp-old-dues').value) || 0;
             var cashPaid = parseFloat(document.getElementById('inp-cash-paid').value) || 0;
 
-            // Simple direct pricing arithmetic calculations
-            var b1 = p1Q * p1P; var t1 = b1 * 0.18;
-            var b2 = p2Q * p2P; var t2 = b2 * 0.18;
-            var b3 = p3Q * p3P; var t3 = b3 * 0.12;
-
-            var totalTaxable = b1 + b2 + b3;
-            var totalTax = t1 + t2 + t3;
-            var currentBillTotal = totalTaxable + totalTax;
-            var netPendingDues = (currentBillTotal + oldDues) - cashPaid;
-
-            // Output data mappings
-            document.getElementById('out-base').innerText = "₹" + totalTaxable.toFixed(2);
-            document.getElementById('out-cgst').innerText = "₹" + (totalTax / 2).toFixed(2);
-            document.getElementById('out-sgst').innerText = "₹" + (totalTax / 2).toFixed(2);
