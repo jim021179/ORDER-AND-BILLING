@@ -93,7 +93,7 @@
                 </div>
             </div>
 
-            <!-- CUSTOM ROWS APPENDFRAMEWORK CONTROL BUTTON -->
+            <!-- BUTTON TO ADD NEW CUSTOM ROWS -->
             <button type="button" class="btn-add-item" onclick="appendNewProductRow()">➕ Add More Items / Products</button>
         </div>
 
@@ -136,21 +136,18 @@
     </main>
 
     <script>
-        // Appends a new item block container right into the order section list window view dynamically
+        // Appends a new item block container right into the list view dynamically
         function appendNewProductRow() {
             var targetBox = document.getElementById('dynamic-items-list-box');
             var customBlockNode = document.createElement('div');
             customBlockNode.className = 'product-block';
-            customBlockNode.innerHTML = `
-                <label>Product Description Name</label>
-                <input type="text" class="item-name-field" placeholder="e.g. New Biscuit SKU Brand Pack">
-                <div class="grid-2">
-                    <div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="0"></div>
-                    <div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>
-                </div>
-            `;
+            customBlockNode.innerHTML = '<label>Product Description Name</label>' +
+                '<input type="text" class="item-name-field" placeholder="e.g. New Biscuit SKU Brand Pack">' +
+                '<div class="grid-2">' +
+                    '<div><label>Base Price (₹)</label><input type="number" class="item-price-field" value="0"></div>' +
+                    '<div><label>Qty Delivered</label><input type="number" class="item-qty-field" value="0"></div>' +
+                '</div>';
             targetBox.appendChild(customBlockNode);
-            window.scrollTo({ top: customBlockNode.offsetTop, behavior: 'smooth' });
         }
 
         function generateInvoiceBreakdown() {
@@ -160,3 +157,5 @@
             var oldDues = parseFloat(document.getElementById('inp-old-dues').value) || 0;
             var cashPaid = parseFloat(document.getElementById('inp-cash-paid').value) || 0;
 
+            var namesArr = document.getElementsByClassName('item-name-field');
+            var pricesArr = document.getElementsByClassName('item-price-field');
