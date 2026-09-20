@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confectionery Distributor Hub</title>
     <style>
-        body { background-color: #f3f4f6; padding: 0; margin: 0; font-family: sans-serif; color: #1f2937; color-scheme: light; }
+        body { background-color: #f3f4f6; padding: 0; margin: 0; font-family: sans-serif; color: #1f2937; }
         header { background-color: #4f46e5; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .app-title { font-size: 1.2rem; font-weight: bold; }
         .app-subtitle { font-size: 0.75rem; color: #c7d2fe; }
         
-        /* Direct Main Control Bar */
         .control-bar { background: #ffffff; padding: 10px; display: flex; justify-content: space-around; border-bottom: 2px solid #e5e7eb; gap: 5px; }
         .nav-btn { flex: 1; padding: 10px; font-weight: bold; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 8px; cursor: pointer; font-size: 0.85rem; color: #475569; }
         .nav-btn.active { background: #4f46e5; color: white; border-color: #4f46e5; }
@@ -19,7 +18,7 @@
         .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
         .btn { padding: 10px 14px; border-radius: 8px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-block; text-align: center; }
-        .btn-primary { background-color: #4f46e5; color: white; }
+        .btn-primary { background-color: #4f46e5; color: white; width: 100%; padding: 12px; font-size: 0.95rem; }
         .btn-success { background-color: #16a34a; color: white; width: 100%; padding: 12px; font-size: 0.95rem; margin-top: 10px; }
         .btn-danger { background-color: #dc2626; color: white; padding: 6px 10px; font-size: 0.75rem; border-radius: 6px; }
         .btn-secondary { background-color: #e5e7eb; color: #4b5563; }
@@ -46,10 +45,10 @@
             <div class="app-title">DistroBill India</div>
             <div class="app-subtitle">Offline Route & GST Suite</div>
         </div>
-        <button onclick="clearAndResetApp()" class="btn btn-secondary" style="font-size:0.7rem; padding:4px 8px;">🔄 Reset</button>
+        <button onclick="clearAndResetApp()" class="btn btn-secondary" style="font-size:0.7rem; padding:4px 8px;">🔄 Reset App</button>
     </header>
 
-    <!-- TOP POSITIONED DIRECT INTERFACE SELECTOR -->
+    <!-- MENU TABS DIRECT CONTROL -->
     <div class="control-bar">
         <button onclick="switchView('dashboard')" id="nav-dashboard" class="nav-btn active">📋 Routes</button>
         <button onclick="switchView('retailers')" id="nav-retailers" class="nav-btn">👥 Add Shops</button>
@@ -57,9 +56,9 @@
     </div>
 
     <main>
-        <!-- VIEW 1: DAILY ROUTE LOGS -->
+        <!-- VIEW 1: FLEET DAILY ROUTE LISTS -->
         <div id="view-dashboard" class="page-view active">
-            <h3 style="margin-top:0; margin-bottom:12px; font-size:1rem;">📅 Tap Day to Select Route:</h3>
+            <h3 style="margin-top:0; margin-bottom:12px; font-size:1rem;">📅 Select Day Route:</h3>
             <div class="day-container">
                 <button onclick="setDay('Monday')" id="tab-Mon" class="day-tab active">Monday</button>
                 <button onclick="setDay('Tuesday')" id="tab-Tue" class="day-tab">Tuesday</button>
@@ -70,47 +69,54 @@
             </div>
             
             <h4 id="route-title" style="font-size:0.85rem; text-transform:uppercase; color:#4f46e5; margin-bottom:12px; font-weight:bold;">Monday Route List</h4>
+            
+            <!-- Safe Direct Action Button if list is initially empty -->
+            <div id="dashboard-setup-tip" class="card" style="background:#fffbeb; border-color:#fef3c7; text-align:center;">
+                <p style="font-size:0.85rem; color:#b45309; margin-bottom:10px; font-weight:500;">⚠️ The app database needs to wake up for this phone.</p>
+                <button onclick="clearAndResetApp()" class="btn btn-primary" style="background:#d97706;">⚡ Tap Here to Load Sample Data</button>
+            </div>
+            
             <div id="dashboard-list"></div>
         </div>
 
-        <!-- VIEW 2: ADDING AND ERASING RETAILERS -->
+        <!-- VIEW 2: SHOP PROFILE REGISTRY -->
         <div id="view-retailers" class="page-view">
-            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">👥 Shop Management Registry</h3>
+            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">👥 Shop Management</h3>
             <form onsubmit="handleRetailerSubmit(event)" class="card" style="background:#f8fafc; border: 1px solid #cbd5e1;">
-                <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;">➕ REGISTER NEW STORE PROFILE</p>
+                <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;">➕ REGISTER NEW STORE</p>
                 <input type="text" id="ret-name" placeholder="Shop Name (e.g., Balaji Kirana)" required>
                 <input type="text" id="ret-loc" placeholder="Market Location Area" required>
                 <select id="ret-day">
                     <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
                     <option>Thursday</option><option>Friday</option><option>Saturday</option>
                 </select>
-                <input type="number" step="0.01" id="ret-pending" placeholder="Previous Dues Balance (₹) if any" value="0">
-                <button type="submit" class="btn btn-primary" style="width:100%; padding:12px;">Save Shop to Schedule</button>
+                <input type="number" step="0.01" id="ret-pending" placeholder="Opening Due Balance (₹)" value="0">
+                <button type="submit" class="btn btn-primary">Save Shop Profile</button>
             </form>
             <div id="retailers-list"></div>
         </div>
 
-        <!-- VIEW 3: PRODUCT CATALOG CONFIGURATION -->
+        <!-- VIEW 3: PRODUCT INVENTORY CONFIGURATION -->
         <div id="view-products" class="page-view">
-            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">📦 Product Inventory & Pricing</h3>
+            <h3 style="margin-top:0; margin-bottom:12px; font-size:1.1rem;">📦 Product Pricing Catalog</h3>
             <form onsubmit="handleProductSubmit(event)" class="card" style="background:#f8fafc; border: 1px solid #cbd5e1;">
-                <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;">➕ ADD NEW BRAND VARIANT</p>
-                <input type="text" id="prod-name" placeholder="Item Details (e.g., Parle-G Box)" required>
-                <input type="number" step="0.01" id="prod-price" placeholder="Wholesale Net Cost (₹)" required>
+                <p style="font-size:0.8rem; font-weight:bold; margin-bottom:10px; color:#4f46e5;">➕ ADD NEW ITEM SKU</p>
+                <input type="text" id="prod-name" placeholder="Item Details (e.g., Biscuit Box)" required>
+                <input type="number" step="0.01" id="prod-price" placeholder="Wholesale Base Price (₹)" required>
                 <select id="prod-gst">
                     <option value="18">18% GST (Confectionery Standard)</option>
                     <option value="12">12% GST</option>
                     <option value="5">5% GST</option>
                     <option value="0">0% GST Exempt</option>
                 </select>
-                <button type="submit" class="btn btn-primary" style="width:100%; padding:12px;">Add New Item</button>
+                <button type="submit" class="btn btn-primary">Add Item to Catalog</button>
             </form>
             <div id="products-list"></div>
         </div>
 
-        <!-- VIEW 4: ACTIVE INVOICE ENTRY SYSTEM -->
+        <!-- VIEW 4: ACTIVE BILLING DESK SHEET -->
         <div id="view-billing" class="page-view">
-            <div style="margin-bottom:15px; font-size:0.9rem; color:#4f46e5; font-weight:bold; cursor:pointer;" onclick="switchView('dashboard')">⬅️ Back to Deliveries Dashboard</div>
+            <div style="margin-bottom:15px; font-size:0.9rem; color:#4f46e5; font-weight:bold; cursor:pointer;" onclick="switchView('dashboard')">⬅️ Back to Deliveries</div>
             <div class="card" style="background:#e0e7ff; border-color:#c7d2fe;">
                 <h3 style="margin:0; font-size:1.1rem; font-weight:bold;" id="bill-shop-name">Shop Name</h3>
                 <p style="font-size:0.85rem; color:#4b5563; margin-top:4px;" id="bill-shop-loc">📍 Zone: Main Bazar</p>
@@ -129,7 +135,3 @@
                 <div class="flex-between" style="color:#f87171;"><span>Prior Market Credit:</span><span id="summary-old-dues">₹0.00</span></div>
                 <hr>
                 <div style="margin-top:10px; margin-bottom:10px;">
-                    <label style="color:#9ca3af; font-size:0.75rem; font-weight:bold;">💸 AMOUNT COLLECTED ON SPOT (₹)</label>
-                    <input type="number" step="0.01" id="live-cash-collected" oninput="runLiveCalculation()" placeholder="0.00" style="background:#1f2937; color:white; border-color:#374151; margin-top:6px; margin-bottom:0;">
-                </div>
-                <hr>
